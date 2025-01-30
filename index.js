@@ -2,7 +2,7 @@ import express from "express";
 dotenv.config()
 import dotenv from "dotenv"
 import connectDB from "./src/Db/index.js";
-import todoRoutes from "./src/routs/todos.routs.js"
+import todoRoutes from "./src/routes/todos.routes.js"
 import cors from "cors"
 const app = express()
 
@@ -11,7 +11,9 @@ app.use (express.json())
 app.use(cors())
 
 // routes
-
+app.get('/', (req, res) => {
+  res.send('Hello, World!');
+});
 app.use('/api/v1', todoRoutes)
 
 connectDB()
