@@ -3,9 +3,12 @@ dotenv.config()
 import dotenv from "dotenv"
 import connectDB from "./src/Db/index.js";
 import todoRoutes from "./src/routs/todos.routs.js"
+import cors from "cors"
 const app = express()
 
 app.use (express.json())
+
+app.use(cors())
 
 // routes
 

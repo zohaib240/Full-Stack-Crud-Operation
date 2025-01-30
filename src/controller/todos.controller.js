@@ -4,7 +4,7 @@ import Todos from "../models/todos.models.js";
 
 // add Todo
 
-const addTodo = (req, res) => {
+const addTodo = async (req, res) => {
     const { title, description } = req.body;
     console.log("Request Body:", req.body); // Log request body to verify
     
@@ -15,12 +15,13 @@ const addTodo = (req, res) => {
         return;
     }
     try{
-    const todo = Todos.create({
+    const todo = await Todos.create({
       title,
       description,
     });
     res.status(201).json({
       message: "user added to database successfully",
+      todo
     });}
     catch (error) {
         // Handle errors
@@ -77,7 +78,7 @@ if(!todo){
 }
 res.status(200).json({
 message : "delete todo successfully",
-todo
+todo ,
 })
 }
 // editTodo
@@ -88,12 +89,7 @@ const editTodo = async (req , res) => {
  if (!mongoose.Types.ObjectId.isValid(id)) {
   return res.status(400).json({ error: "Not valid Id" });
 }
-
-const updatetodo = await Todos.findByIdAndUpdate(id ,{
-title : req.body.title,
-description : req.body.description},
-{new : true}
-)
+const updatetodo = await Todos.findByIdAndUpdate(id, { ...req.body }, { new: true })
 if(!updatetodo){
 res.status(404).json({
   message : "no found"
