@@ -1,29 +1,30 @@
 import express from "express";
-dotenv.config()
-import dotenv from "dotenv"
+import dotenv from "dotenv";  
 import connectDB from "./src/Db/index.js";
-import todoRoutes from "./src/routes/todos.routes.js"
-import cors from "cors"
-const app = express()
+import todoRoutes from "./src/routes/todos.routes.js";
+import cors from "cors";
 
-app.use (express.json())
+dotenv.config();  
 
-app.use(cors())
+const app = express();
 
-// routes
+app.use(express.json());
+app.use(cors());
+
+// Default GET route
 app.get('/', (req, res) => {
   res.send('Hello, World!');
 });
-app.use('/api/v1', todoRoutes)
+
+// Todo routes
+app.use('/api/v1', todoRoutes);
 
 connectDB()
-.then(() => {
-  app.listen(process.env.PORT, () => {
-    console.log(`⚙️  Server is running at port : ${process.env.PORT}`);
+  .then(() => {
+    app.listen(process.env.PORT, () => {
+      console.log(`⚙️  Server is running at port : ${process.env.PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.log("MONGO DB connection failed !!! ", err);
   });
-})
-.catch((err) => {
-  console.log("MONGO DB connection failed !!! ", err);
-});
-
-
